@@ -1,0 +1,40 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+	'.frames-preview': [
+		{label: 'Copy As HTML', command: 'core:copy'}
+		{label: 'Save As HTML\u2026', command: 'core:save-as'}
+	]
+
+	'.tree-view .file .name[data-name$=\\.xvc]': [
+		{
+			label: 'Frames Preview',
+			command: 'frames-preview:open'
+		},
+		{ type: 'separator' }
+	]
+
+	'atom-text-editor': [
+		{
+			'label': 'Frames'
+			'submenu': [
+				'label': 'Toggle Preview'
+				'command': 'frames-preview:toggle'
+			]
+		},
+		{ type: 'separator' }
+	]
+
+'menu': [
+	{
+		'label': 'Packages'
+		'submenu': [
+			'label': 'Frames'
+			'submenu': [
+				{
+					'label': 'Toggle Preview'
+					'command': 'frames-preview:toggle'
+				}
+			]
+		]
+	}
+]
