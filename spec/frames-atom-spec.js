@@ -1,14 +1,29 @@
+var path = require('path');
+var Config = require('../lib/frames/objects/config');
+
+var rootdir;
+var cfg;
+
 describe("Frames Atom package", function()
 {
-	describe("just an example", function()
+	beforeEach(function()
 	{
-		it("some example", function()
+		rootdir = path.resolve(__dirname, '..');
+		console.log(rootdir);
+	});
+
+	describe("Config", function()
+	{
+		it("load frames.config file", function()
 		{
-			runs(function()
-			{
-				var a = 12;
-				expect(a).toEqual(12);
-			});
+			var file = path.resolve(rootdir, 'example/frames.config');
+			cfg = Config.load(file);
+			expect(cfg.parameters).toBeDefined();
+		});
+
+		it("parse frames.config file", function()
+		{
+			expect(cfg.getParameter('debug')).toEqual('false');
 		});
 	});
 });
