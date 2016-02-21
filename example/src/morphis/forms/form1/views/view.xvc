@@ -1,6 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window layout="horizontal" title="mainWindow.title" xmlns="urn:schemas:morphis:frames:view" xmlns:xl="urn:schemas:morphis:frames:logic">
-	<framepanel label="XX">
-		<textinput name="XPTO" label="XPTO" />
-	</framepanel>
+	<interactionblock name="DEPT"/>
+	<interactionblock name="EMP"/>
+
+	<panel class="ContentCanvas" id="pnlEmp" label="Forms2Net Master/Detail Demo" menu="FILE" name="EMP" width="100%">
+		<collapsiblepanel width="100%" label="Departments">
+				<panel width="100%">
+					<gridlayout cols="2">
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="No" maxlength="5" member="DEPTNO" menu="POPUP" name="deptno" required="true" width="35px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Name" maxlength="64" member="DNAME" menu="POPUP" name="dname" width="110px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Location" maxlength="64" member="LOC" menu="POPUP" name="loc" width="108px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Country" maxlength="64" member="COUNTRY" menu="POPUP" name="country" width="100%" />
+						</gridcell>
+					</gridlayout>
+				</panel>
+		</collapsiblepanel>
+
+		<collapsiblepanel width="100%" label="Details">
+				<panel width="100%">
+					<gridlayout cols="2">
+						<gridcell>
+							<textfield block="DEPT" bordertype="solid" height="23px" label="Description" maxlength="128" member="DESC" name="desc" width="436px" />
+						</gridcell>
+						<gridcell>
+							<textfield block="DEPT" bordertype="solid" height="23px" label="Responsible" maxlength="30" member="RESPONSIBLE" name="responsible" width="125px" />
+						</gridcell>
+						<gridcell>
+							<textfield block="DEPT" bordertype="solid" height="23px" label="No of Employees" maxlength="5" member="EMP_NBR" name="empNbr" width="30px" />
+						</gridcell>
+						<gridcell>
+							<textfield block="DEPT" bordertype="solid" height="23px" label="Sales Volume" maxlength="24" member="VOLUME" name="volume" width="106px" />
+						</gridcell>
+					</gridlayout>
+				</panel>
+		</collapsiblepanel>
+
+		<panel width="100%" style="ui-button-panel">
+			<button action="WHEN-BUTTON-PRESSED" block="DEPT" label="Orders" member="BTORD" name="btord" />
+		</panel>
+
+		<collapsiblepanel width="100%" label="Employees of Selected Department">
+				<panel width="100%">
+					<gridview block="EMP" height="142px" name="grdEmp" width="100%">
+						<viewheader>
+							<viewcolumn label="No"  maxlength="5" member="EMPNO" name="empno" required="true" />
+							<viewcolumn label="Name"  maxlength="32" member="LASTNAME" name="lastname" required="true" />
+							<viewcolumn label="Mng Id"  maxlength="30" member="MGR" name="mgr" />
+							<viewcolumn label="Manager"  maxlength="65" member="MGR_NAME" name="mgrName">
+								<editor>
+									<lovbox />
+								</editor>
+							</viewcolumn>
+							<viewcolumn label="Job"  maxlength="12" member="JOB" name="job" >
+								<editor>
+									<combobox>
+										<model>
+											<item label="Analyst" value="ANALYST"/>
+											<item label="Clerk" value="CLERK"/>
+											<item label="Manager" value="MANAGER"/>
+											<item label="Salesman" value="SALESMAN"/>
+											<item label="President" value="PRESIDENT"/>
+										</model>
+									</combobox>
+								</editor>
+							</viewcolumn>
+							<viewcolumn block="EMP" datatype="Number" formatmask="$999G999D00" label="Salary" maxlength="12" member="SAL" name="sal" required="true" width="66px"/>
+							<viewcolumn block="EMP" datatype="Date" formatmask="DD/MM/YYYY" label="Hire Date" maxlength="11" member="HIREDATE" name="hiredate" validation="server" width="74px">
+								<editor>
+									<calendar/>
+								</editor>
+							</viewcolumn>
+						</viewheader>
+					</gridview>
+				</panel>
+		</collapsiblepanel>
+
+		<panel width="100%" style="ui-button-panel" name="XPTO" id="XPTO-id">
+	<!-- 			<button action="WHEN-BUTTON-PRESSED" block="DEPT" label="Close" member="CLOSE" name="close" /> -->
+			<button action="WHEN-BUTTON-PRESSED" block="DEPT" label="Report" member="BTREPORT" name="btreport" />
+		</panel>
+	</panel>
 </window>
