@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window layout="horizontal" title="mainWindow.title" xmlns="urn:schemas:morphis:frames:view" xmlns:xl="urn:schemas:morphis:frames:logic">
+	<framepanel label="XX">
+		<textinput name="XPTO" label="XPTO" />
+	</framepanel>
+</window>
