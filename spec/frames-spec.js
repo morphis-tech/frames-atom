@@ -4,7 +4,7 @@ var Config = require('../lib/frames/objects/config');
 var rootdir;
 var cfg;
 
-describe("Frames Atom package", function()
+describe("Frames", function()
 {
 	beforeEach(function()
 	{
