@@ -1,4 +1,4 @@
-# frames-atom package
+# frames package
 
 A short description of your package.
 
