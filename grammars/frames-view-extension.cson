@@ -1,0 +1,8 @@
+'scopeName': 'text.xve'
+'name': 'Frames View Extension'
+'fileTypes': [
+  'xve'
+]
+'patterns': [
+	'include': 'text.xml'
+]

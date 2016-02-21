@@ -1,0 +1,8 @@
+'scopeName': 'text.xvc'
+'name': 'Frames View'
+'fileTypes': [
+  'xvc'
+]
+'patterns': [
+	'include': 'text.xml'
+]
