@@ -8,8 +8,19 @@ This package provides basic support and syntax highlighting for [Frames](https:/
 
 There's no packaging yet. So, you need to clone this repository first (develop branch).
 
+### Requirements
+
+First you need to install [NodeJs](https://nodejs.org/). Tested in the latest LTS version of NodeJS it's 4.3.x.
+
+After that add Morphis repository. This command will register the Morphis Node repository in your system:
+~~~bash
+$ npm set registry http://node.srv.morphis-tech.com
+~~~
+
+### Initial Setup
+
 1 - install the dependencies:
- 
+
 ~~~bash
 $ npm install
 ~~~
