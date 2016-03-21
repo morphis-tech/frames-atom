@@ -36,3 +36,11 @@ $ apm link
 ~~~bash
 $ atom -d .
 ~~~
+
+### Development
+Open Atom in Development Mode:
+    View -> Developer -> Open in Dev Mode...
+
+Publish plugin changes:
+  View -> Developer -> Reload Window
+  Ctrl + Alt + R

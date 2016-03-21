@@ -13,26 +13,29 @@
 		{ type: 'separator' }
 	]
 
-	'atom-text-editor': [
-		{
-			'label': 'Frames'
-			'submenu': [
-				'label': 'Toggle Preview'
-				'command': 'frames-preview:toggle'
-			]
-		},
-		{ type: 'separator' }
-	]
+	'atom-pane[data-active-item-name$=\\.xvc] .item-views': [
+			{ type: 'separator' },
+			{
+				label: 'Frames',
+				submenu: [
+					{
+						label: 'Toggle Preview',
+						command: 'frames-preview:toggle'
+					},
+				]
+			},
+			{ type: 'separator' }
+		]
 
 'menu': [
 	{
-		'label': 'Packages'
-		'submenu': [
-			'label': 'Frames'
-			'submenu': [
+		label: 'Packages'
+		submenu: [
+			label: 'Frames'
+			submenu: [
 				{
-					'label': 'Toggle Preview'
-					'command': 'frames-preview:toggle'
+					label: 'Toggle Preview'
+					command: 'frames-preview:toggle'
 				}
 			]
 		]
