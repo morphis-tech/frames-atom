@@ -5,7 +5,7 @@
 		{label: 'Save As HTML\u2026', command: 'core:save-as'}
 	]
 
-	'.tree-view .file .name[data-name$=\\.xvc]': [
+	'.tree-view .file .name[data-name$=\\.xvc],[data-name$=\\.xve]': [
 		{
 			label: 'Frames Preview',
 			command: 'frames-preview:open'
@@ -13,7 +13,7 @@
 		{ type: 'separator' }
 	]
 
-	'atom-pane[data-active-item-name$=\\.xvc] .item-views': [
+	'atom-pane[data-active-item-name$=\\.xvc],[data-active-item-name$=\\.xve] .item-views': [
 			{ type: 'separator' },
 			{
 				label: 'Frames',
