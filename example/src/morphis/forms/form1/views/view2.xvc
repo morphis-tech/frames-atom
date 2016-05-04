@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window layout="horizontal" title="mainWindow.title" xmlns="urn:schemas:morphis:frames:view" xmlns:xl="urn:schemas:morphis:frames:logic">
+	<interactionblock name="DEPT"/>
+	<interactionblock name="EMP"/>
+
+	<panel class="ContentCanvas" id="pnlEmp" label="Forms2Net Master/Detail Demo" menu="FILE" name="EMP" width="100%">
+		<collapsiblepanel width="100%" label="Departments">
+				<panel width="100%">
+					<gridlayout cols="2">
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="No" maxlength="5" member="DEPTNO" menu="POPUP" name="deptno" required="true" width="35px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Name" maxlength="64" member="DNAME" menu="POPUP" name="dname" width="110px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Location" maxlength="64" member="LOC" menu="POPUP" name="loc" width="108px" />
+						</gridcell>
+						<gridcell>
+							<textbox block="DEPT" height="23px" label="Country" maxlength="64" member="COUNTRY" menu="POPUP" name="country" width="100%" />
+						</gridcell>
+					</gridlayout>
+				</panel>
+		</collapsiblepanel>
+		<panel width="100%" style="ui-button-panel" name="XPTO" id="XPTO-id">
+	<!-- 			<button action="WHEN-BUTTON-PRESSED" block="DEPT" label="Close" member="CLOSE" name="close" /> -->
+			<button action="WHEN-BUTTON-PRESSED" block="DEPT" label="Report" member="BTREPORT" name="btreport" />
+		</panel>
+	</panel>
+</window>
