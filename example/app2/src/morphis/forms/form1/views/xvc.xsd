@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xl="urn:schemas:morphis:frames:logic" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:schemas:morphis:frames:view" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="interactionblock">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="panel">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="button">
+                <xs:complexType>
+                  <xs:attribute name="labelposition" type="xs:string" use="required" />
+                  <xs:attribute name="labelalign" type="xs:string" use="required" />
+                  <xs:attribute name="label" type="xs:string" use="required" />
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="style" type="xs:string" use="required" />
+                  <xs:attribute name="left" type="xs:string" use="required" />
+                  <xs:attribute name="top" type="xs:string" use="required" />
+                  <xs:attribute name="width" type="xs:string" use="required" />
+                  <xs:attribute name="height" type="xs:string" use="required" />
+                  <xs:attribute name="backgroundcolor" type="xs:string" use="required" />
+                  <xs:attribute name="foregroundcolor" type="xs:string" use="required" />
+                  <xs:attribute name="member" type="xs:string" use="required" />
+                  <xs:attribute name="block" type="xs:string" use="required" />
+                  <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="case" type="xs:string" use="required" />
+                  <xs:attribute name="action" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" name="framepanel">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="textfield">
+                      <xs:complexType>
+                        <xs:attribute name="label" type="xs:string" use="required" />
+                        <xs:attribute name="labelposition" type="xs:string" use="required" />
+                        <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="labelalign" type="xs:string" use="required" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="style" type="xs:string" use="required" />
+                        <xs:attribute name="left" type="xs:string" use="required" />
+                        <xs:attribute name="top" type="xs:string" use="required" />
+                        <xs:attribute name="width" type="xs:string" use="required" />
+                        <xs:attribute name="height" type="xs:string" use="required" />
+                        <xs:attribute name="bordertype" type="xs:string" use="required" />
+                        <xs:attribute name="member" type="xs:string" use="required" />
+                        <xs:attribute name="block" type="xs:string" use="required" />
+                        <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="datatype" type="xs:string" use="required" />
+                        <xs:attribute name="case" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="textbox">
+                      <xs:complexType>
+                        <xs:attribute name="label" type="xs:string" use="required" />
+                        <xs:attribute name="labelposition" type="xs:string" use="required" />
+                        <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="labelalign" type="xs:string" use="required" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="style" type="xs:string" use="required" />
+                        <xs:attribute name="left" type="xs:string" use="required" />
+                        <xs:attribute name="top" type="xs:string" use="required" />
+                        <xs:attribute name="width" type="xs:string" use="required" />
+                        <xs:attribute name="height" type="xs:string" use="required" />
+                        <xs:attribute name="menu" type="xs:string" use="required" />
+                        <xs:attribute name="member" type="xs:string" use="required" />
+                        <xs:attribute name="block" type="xs:string" use="required" />
+                        <xs:attribute name="required" type="xs:boolean" use="optional" />
+                        <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="datatype" type="xs:string" use="required" />
+                        <xs:attribute name="case" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="gridview">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="viewheader">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="viewcolumn">
+                                  <xs:complexType>
+                                    <xs:sequence minOccurs="0">
+                                      <xs:element name="editor">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element minOccurs="0" name="calendar" />
+                                            <xs:element minOccurs="0" name="combobox">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="model">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element maxOccurs="unbounded" name="item">
+                                                          <xs:complexType>
+                                                            <xs:attribute name="label" type="xs:string" use="required" />
+                                                            <xs:attribute name="value" type="xs:string" use="required" />
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element minOccurs="0" name="lovbox" />
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="width" type="xs:string" use="required" />
+                                    <xs:attribute name="label" type="xs:string" use="required" />
+                                    <xs:attribute name="labelposition" type="xs:string" use="required" />
+                                    <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
+                                    <xs:attribute name="labelalign" type="xs:string" use="required" />
+                                    <xs:attribute name="labelalignoffset" type="xs:string" use="optional" />
+                                    <xs:attribute name="name" type="xs:string" use="required" />
+                                    <xs:attribute name="style" type="xs:string" use="required" />
+                                    <xs:attribute name="labelstyle" type="xs:string" use="required" />
+                                    <xs:attribute name="member" type="xs:string" use="required" />
+                                    <xs:attribute name="block" type="xs:string" use="required" />
+                                    <xs:attribute name="required" type="xs:boolean" use="optional" />
+                                    <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
+                                    <xs:attribute name="datatype" type="xs:string" use="required" />
+                                    <xs:attribute name="case" type="xs:string" use="required" />
+                                    <xs:attribute name="formatmask" type="xs:string" use="optional" />
+                                    <xs:attribute name="validation" type="xs:string" use="optional" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="top" type="xs:string" use="required" />
+                        <xs:attribute name="left" type="xs:string" use="required" />
+                        <xs:attribute name="width" type="xs:string" use="required" />
+                        <xs:attribute name="height" type="xs:string" use="required" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="block" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="width" type="xs:string" use="required" />
+                  <xs:attribute name="height" type="xs:string" use="required" />
+                  <xs:attribute name="top" type="xs:string" use="required" />
+                  <xs:attribute name="left" type="xs:string" use="required" />
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="label" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="text">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="fontfamily" type="xs:string" use="required" />
+                      <xs:attribute name="fontsize" type="xs:string" use="required" />
+                      <xs:attribute name="fontcolor" type="xs:string" use="required" />
+                      <xs:attribute name="name" type="xs:string" use="required" />
+                      <xs:attribute name="left" type="xs:string" use="required" />
+                      <xs:attribute name="top" type="xs:string" use="required" />
+                      <xs:attribute name="width" type="xs:string" use="required" />
+                      <xs:attribute name="height" type="xs:string" use="required" />
+                      <xs:attribute name="bordertype" type="xs:string" use="required" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="width" type="xs:string" use="required" />
+            <xs:attribute name="height" type="xs:string" use="required" />
+            <xs:attribute name="top" type="xs:string" use="required" />
+            <xs:attribute name="left" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:string" use="required" />
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="class" type="xs:string" use="required" />
+            <xs:attribute name="menu" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="layout" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

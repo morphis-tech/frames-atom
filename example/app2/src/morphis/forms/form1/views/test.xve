@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:extension xmlns:x="urn:schemas:morphis:frames:extension" xmlns:v="urn:schemas:morphis:frames:view" ref="morphis/forms/form1/views/view.xvc">
+    <x:append after="XPTO">
+        <v:button action="WHEN-BUTTON-PRESSED" label="* NEW *" name="close"></v:button>
+    </x:append>
+</x:extension>
