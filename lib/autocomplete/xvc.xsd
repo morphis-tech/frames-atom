@@ -1,187 +1,778 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xl="urn:schemas:morphis:frames:logic" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:schemas:morphis:frames:view" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="config">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element maxOccurs="unbounded" name="interactionblock">
-          <xs:complexType>
-            <xs:attribute name="name" type="xs:string" use="required" />
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="panel">
-          <xs:complexType>
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:schemas:morphis:frames:view" xmlns:xv="urn:schemas:morphis:frames:view" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  	<!-- Common -->
+  	<xs:simpleType name="dimension">
+  		<xs:restriction base="xs:string">
+  			<xs:pattern value="-?([0-9])+(em|px){0,1}"/>
+  		</xs:restriction>
+  	</xs:simpleType>
+    <xs:simpleType name="size">
+      <xs:restriction base="xs:string">
+        <xs:pattern value="-?([0-9])+(pt){0,1}"/>
+      </xs:restriction>
+    </xs:simpleType>
+  	<xs:simpleType name="position">
+  		<xs:restriction base="xs:string">
+  			<xs:enumeration value="top"/>
+  			<xs:enumeration value="bottom" />
+  			<xs:enumeration value="left" />
+  			<xs:enumeration value="right" />
+  		</xs:restriction>
+  	</xs:simpleType>
+  	<xs:attributeGroup name="Name">
+  		<xs:attribute name="name" type="xs:QName" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="style">
+  		<xs:attribute name="style" type="xs:string" />
+      <xs:attribute name="backgroundcolor" type="xs:string" />
+      <xs:attribute name="foregroundcolor" type="xs:string" />
+      <xs:attribute name="fontfamily" type="xs:string" />
+      <xs:attribute name="fontcolor" type="xs:string" />
+      <xs:attribute name="fontsize" type="size" />
+      <xs:attribute name="bordertype" type="xs:string" />
+      <xs:attribute name="textalign" default="left" >
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="left" />
+            <xs:enumeration value="right" />
+            <xs:enumeration value="center" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="position">
+  		<xs:attribute name="top" type="dimension">
+  			<xs:annotation>
+  				<xs:documentation>Sets the top position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
+  			</xs:annotation>
+  		</xs:attribute>
+  		<xs:attribute name="left" type="dimension">
+  			<xs:annotation>
+  				<xs:documentation>Sets the left position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
+  			</xs:annotation>
+  		</xs:attribute>
+  		<xs:attribute name="bottom" type="dimension">
+  			<xs:annotation>
+  				<xs:documentation>Sets the bottom position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
+  			</xs:annotation>
+  		</xs:attribute>
+  		<xs:attribute name="right" type="dimension">
+  			<xs:annotation>
+  				<xs:documentation>Sets the right position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
+  			</xs:annotation>
+  		</xs:attribute>
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="dimensions">
+  		<xs:attribute name="width" type="dimension"/>
+  		<xs:attribute name="height" type="dimension"/>
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="Enabled">
+  		<xs:attribute name="enabled" type="xs:boolean" default="true" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="Visible">
+  		<xs:attribute name="visible" type="xs:boolean" default="true" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="Readonly">
+  		<xs:attribute name="readonly" type="xs:boolean" default="false" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="Label">
+  		<xs:attribute name="label" type="xs:string" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="label">
+  		<xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="labelposition" default="left" >
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="left" />
+            <xs:enumeration value="right" />
+            <xs:enumeration value="top" />
+            <xs:enumeration value="bottom" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="labeloffset" type="dimension" />
+      <xs:attribute name="labelalignoffset" type="dimension" />
+      <xs:attribute name="labelalign" default="start" >
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="start" />
+            <xs:enumeration value="end" />
+            <xs:enumeration value="center" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="labelstyle" type="xs:string" />
+      <xs:attribute name="labelfontfamily" type="xs:string" />
+      <xs:attribute name="labelcolor" type="xs:string" />
+      <xs:attribute name="labelfontsize" type="size" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="action">
+  		<xs:attribute name="action" type="xs:string" />
+  	</xs:attributeGroup>
+  	<xs:attributeGroup name="Orientation">
+  		<xs:attribute name="orientation" default="vertical">
+  			<xs:simpleType>
+  				<xs:restriction base="xs:string">
+  					<xs:enumeration value="horizontal" />
+  					<xs:enumeration value="vertical" />
+  				</xs:restriction>
+  			</xs:simpleType>
+  		</xs:attribute>
+  	</xs:attributeGroup>
+    <xs:attributeGroup name="bind">
+      <xs:attribute name="member" type="xs:string" />
+      <xs:attribute name="block" type="xs:string" />
+      <xs:attribute name="datatype" type="xs:string" />
+      <xs:attribute name="maxlength" type="xs:int" />
+    </xs:attributeGroup>
+  	<xs:attributeGroup name="href">
+  		<xs:attribute name="href" type="xs:string" />
+  	</xs:attributeGroup>
+  
+  
+  	<xs:complexType name="base" abstract="true">
+  	</xs:complexType>
+  
+  	<xs:element name="config">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:sequence maxOccurs="unbounded">
+  						<xs:element ref="include" minOccurs="0" />
+  						<xs:choice>
+  							<xs:group ref="Panel" minOccurs="0" />
+  							<xs:group ref="viewcomponent" minOccurs="0" />
+  						</xs:choice>
+  					</xs:sequence>
+  					<xs:attribute name="title" type="xs:string" />
+  					<xs:attribute name="extends" type="xs:string" />
+  					<xs:attribute name="logic" type="xs:string" />
+            <xs:attribute name="layout"  >
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="positional" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+    
+    <!-- EVENT-->
+    <xs:complexType name ="event">
+        <xs:attribute name="name" type="xs:string" />
+        <xs:attribute name="action" type="xs:string" />
+     </xs:complexType>
+  	<!--PANELS-->
+  	<xs:complexType name="unamedElement" abstract="true">
+  		<xs:complexContent>
+  			<xs:extension base="base">
+  				<xs:attributeGroup ref="style" />
+  				<xs:attributeGroup ref="Enabled" />
+  				<xs:attributeGroup ref="Visible" />
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>
+  	<xs:complexType name="unamedSimpleElement" abstract="true">
+  		<xs:simpleContent>
+  			<xs:extension base="xs:string">
+  				<xs:attributeGroup ref="style" />
+  				<xs:attributeGroup ref="Enabled" />
+  				<xs:attributeGroup ref="Visible" />
+  			</xs:extension>
+  		</xs:simpleContent>
+  	</xs:complexType>
+  
+  	<xs:complexType name="baseElement" abstract="true">
+  		<xs:complexContent>
+  			<xs:extension base="unamedElement">
+  				<xs:attributeGroup ref="Name" />
+  				<xs:attributeGroup ref="position" />
+  				<xs:attributeGroup ref="dimensions" />
+          <xs:attribute name="menu" type="xs:QName" />
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>
+  
+  	<xs:complexType name="baseSimpleElement" abstract="true">
+  		<xs:simpleContent>
+  			<xs:extension base="unamedSimpleElement">
+  				<xs:attributeGroup ref="Name" />
+  				<xs:attributeGroup ref="position" />
+  				<xs:attributeGroup ref="dimensions" />
+  			</xs:extension>
+  		</xs:simpleContent>
+  	</xs:complexType>
+    
+   
+  
+    <xs:complexType name="basePanel" abstract="true">
+      <xs:complexContent>
+        <xs:extension base="baseElement">
+          <xs:attribute name="id" type ="xs:QName" />
+          <xs:attribute name="class" type ="xs:QName" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    
+  	<xs:element name="panel">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="basePanel">
+  					<xs:group ref="PanelContent" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="tabpanel">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="basePanel">
+  					<xs:sequence>
+  						<xs:element ref="tab" maxOccurs="unbounded" />
+  					</xs:sequence>
+  					<xs:attribute name="tabposition" type="position" default="top" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="tab">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="unamedElement">
+  					<xs:group ref="PanelContent" />
+  					<xs:attributeGroup ref="Label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="framepanel">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="baseElement">
+  					<xs:group ref="PanelContent" />
+  					<xs:attributeGroup ref="Label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="formpanel">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:choice>
+  						<xs:group ref="Layout" />
+  						<xs:sequence maxOccurs="unbounded">
+  							<xs:group ref="Panel" minOccurs="0" />
+  							<xs:group ref="Component" minOccurs="0" />
+  						</xs:sequence>
+  					</xs:choice>
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="action" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="positionpanel">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="baseElement">
+  					<xs:group ref="PanelContent" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:group name="Panel">
+  		<xs:choice>
+  			<xs:group ref="panel" />
+  		</xs:choice>
+  	</xs:group>
+  	<xs:group name="panel">
+  		<xs:choice>
+  			<xs:element ref="panel" />
+  			<xs:element ref="tabpanel" />
+  			<xs:element ref="framepanel" />
+  			<xs:element ref="formpanel" />
+  			<xs:element ref="positionpanel" />
+  		</xs:choice>
+  	</xs:group>
+  	<xs:group name="PanelContent">
+  		<xs:choice>
+  			<xs:group ref="Layout" />
+  			<xs:sequence maxOccurs="unbounded">
+  				<xs:group ref="Panel" minOccurs="0" />
+  				<xs:group ref="Component" minOccurs="0" />
+  			</xs:sequence>
+  		</xs:choice>
+  	</xs:group>
+  	
+  	<!--Panel Layout-->
+  	<xs:element name="flowlayout">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:group ref="LayoutContent" />
+  					<xs:attributeGroup ref="Orientation" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="gridflowlayout">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:group ref="LayoutContent" />
+  					<xs:attribute name="cols" type="xs:integer" use="required" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="gridcell">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:group ref="PanelContent" />
+  					<xs:attribute name="colspan" type="xs:integer" default="1" />
+  					<xs:attribute name="rowspan" type="xs:integer" default="1" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="positionlayout">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:group ref="LayoutContent" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="area">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:group ref="PanelContent" />
+  					<xs:attribute name="name" type="borderposition" use="required"/>
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:simpleType name="borderposition">
+  		<xs:restriction base="xs:string">
+  			<xs:enumeration value="top"/>
+  			<xs:enumeration value="bottom" />
+  			<xs:enumeration value="left" />
+  			<xs:enumeration value="right" />
+  			<xs:enumeration value="center" />
+  		</xs:restriction>
+  	</xs:simpleType>
+  	<xs:group name="Layout">
+  		<xs:choice>
+  			<xs:element ref="borderlayout" />
+  			<xs:element ref="flowlayout" />
+  			<xs:element ref="gridlayout" />
+  			<xs:element ref="gridflowlayout" />
+  			<xs:element ref="positionlayout" />
+  		</xs:choice>
+  	</xs:group>
+  	<xs:group name="LayoutContent">
+  		<xs:sequence>
+  			<xs:sequence maxOccurs="unbounded">
+  				<xs:group ref="Panel" minOccurs="0" />
+  				<xs:group ref="Component" minOccurs="0" />
+  			</xs:sequence>
+  		</xs:sequence>
+  	</xs:group>
+  	
+  	<!--Components-->
+  	<!--Form Components-->
+  	<xs:complexType name="control" abstract="true">
+  		<xs:complexContent>
+  			<xs:extension base="baseElement">
+          <xs:sequence minOccurs="0" maxOccurs ="unbounded">
+            <xs:element name="event" type="event" />
+          </xs:sequence>				
+  				<xs:attribute name="disabled" type="xs:boolean" default="false" />
+          
+          <xs:attribute name="tooltip" type="xs:string"  />
+          <xs:attribute name="hint" type="xs:string"  />
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>
+    <xs:complexType name="bindcontrol" abstract="true">
+      <xs:complexContent>
+        <xs:extension base="control">
+          <xs:attributeGroup ref="bind" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="editablecontrol" abstract="true">
+      <xs:complexContent>
+        <xs:extension base="bindcontrol">
+          <xs:attribute name="required" type="xs:boolean" default="false" />
+          <xs:attribute name="formatmask" type="xs:string"  />
+          <xs:attribute name="readonly" type="xs:boolean" default="false" />
+          <xs:attribute name="case" default="mixed" >
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="mixed" />
+                <xs:enumeration value="upper" />
+                <xs:enumeration value="lower" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="validation" >
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="server" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>   
+  	<xs:element name="button">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="bindcontrol">
+            <xs:attributeGroup ref="label" />
+  					<xs:attributeGroup ref="action" />
+            <xs:attribute name="icon" type ="xs:string" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="textbox">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="editablecontrol">
+            <xs:attributeGroup ref="label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+    <xs:element name="textfield">
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="editablecontrol">
+            <xs:attributeGroup ref="label" />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+  	<xs:element name="textarea">
+  		<xs:complexType>
+  			<xs:complexContent>
+          <xs:extension base="editablecontrol">
+            <xs:attributeGroup ref="label" />
+          </xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="combobox">
+  		<xs:complexType>
+  			<xs:complexContent>
+          <xs:extension base="bindcontrol" >
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="button">
-                <xs:complexType>
-                  <xs:attribute name="labelposition" type="xs:string" use="required" />
-                  <xs:attribute name="labelalign" type="xs:string" use="required" />
-                  <xs:attribute name="label" type="xs:string" use="required" />
-                  <xs:attribute name="name" type="xs:string" use="required" />
-                  <xs:attribute name="style" type="xs:string" use="required" />
-                  <xs:attribute name="left" type="xs:string" use="required" />
-                  <xs:attribute name="top" type="xs:string" use="required" />
-                  <xs:attribute name="width" type="xs:string" use="required" />
-                  <xs:attribute name="height" type="xs:string" use="required" />
-                  <xs:attribute name="backgroundcolor" type="xs:string" use="required" />
-                  <xs:attribute name="foregroundcolor" type="xs:string" use="required" />
-                  <xs:attribute name="member" type="xs:string" use="required" />
-                  <xs:attribute name="block" type="xs:string" use="required" />
-                  <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
-                  <xs:attribute name="case" type="xs:string" use="required" />
-                  <xs:attribute name="action" type="xs:string" use="required" />
-                </xs:complexType>
-              </xs:element>
-              <xs:element maxOccurs="unbounded" name="framepanel">
+              <xs:element name ="model" minOccurs ="0" maxOccurs ="1">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element minOccurs="0" maxOccurs="unbounded" name="textfield">
+                    <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
                       <xs:complexType>
-                        <xs:attribute name="label" type="xs:string" use="required" />
-                        <xs:attribute name="labelposition" type="xs:string" use="required" />
-                        <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="labelalign" type="xs:string" use="required" />
-                        <xs:attribute name="name" type="xs:string" use="required" />
-                        <xs:attribute name="style" type="xs:string" use="required" />
-                        <xs:attribute name="left" type="xs:string" use="required" />
-                        <xs:attribute name="top" type="xs:string" use="required" />
-                        <xs:attribute name="width" type="xs:string" use="required" />
-                        <xs:attribute name="height" type="xs:string" use="required" />
-                        <xs:attribute name="bordertype" type="xs:string" use="required" />
-                        <xs:attribute name="member" type="xs:string" use="required" />
-                        <xs:attribute name="block" type="xs:string" use="required" />
-                        <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="datatype" type="xs:string" use="required" />
-                        <xs:attribute name="case" type="xs:string" use="required" />
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element minOccurs="0" maxOccurs="unbounded" name="textbox">
-                      <xs:complexType>
-                        <xs:attribute name="label" type="xs:string" use="required" />
-                        <xs:attribute name="labelposition" type="xs:string" use="required" />
-                        <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="labelalign" type="xs:string" use="required" />
-                        <xs:attribute name="name" type="xs:string" use="required" />
-                        <xs:attribute name="style" type="xs:string" use="required" />
-                        <xs:attribute name="left" type="xs:string" use="required" />
-                        <xs:attribute name="top" type="xs:string" use="required" />
-                        <xs:attribute name="width" type="xs:string" use="required" />
-                        <xs:attribute name="height" type="xs:string" use="required" />
-                        <xs:attribute name="menu" type="xs:string" use="required" />
-                        <xs:attribute name="member" type="xs:string" use="required" />
-                        <xs:attribute name="block" type="xs:string" use="required" />
-                        <xs:attribute name="required" type="xs:boolean" use="optional" />
-                        <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="datatype" type="xs:string" use="required" />
-                        <xs:attribute name="case" type="xs:string" use="required" />
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="gridview">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="viewheader">
-                            <xs:complexType>
-                              <xs:sequence>
-                                <xs:element maxOccurs="unbounded" name="viewcolumn">
-                                  <xs:complexType>
-                                    <xs:sequence minOccurs="0">
-                                      <xs:element name="editor">
-                                        <xs:complexType>
-                                          <xs:sequence>
-                                            <xs:element minOccurs="0" name="calendar" />
-                                            <xs:element minOccurs="0" name="combobox">
-                                              <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:element name="model">
-                                                    <xs:complexType>
-                                                      <xs:sequence>
-                                                        <xs:element maxOccurs="unbounded" name="item">
-                                                          <xs:complexType>
-                                                            <xs:attribute name="label" type="xs:string" use="required" />
-                                                            <xs:attribute name="value" type="xs:string" use="required" />
-                                                          </xs:complexType>
-                                                        </xs:element>
-                                                      </xs:sequence>
-                                                    </xs:complexType>
-                                                  </xs:element>
-                                                </xs:sequence>
-                                              </xs:complexType>
-                                            </xs:element>
-                                            <xs:element minOccurs="0" name="lovbox" />
-                                          </xs:sequence>
-                                        </xs:complexType>
-                                      </xs:element>
-                                    </xs:sequence>
-                                    <xs:attribute name="width" type="xs:string" use="required" />
-                                    <xs:attribute name="label" type="xs:string" use="required" />
-                                    <xs:attribute name="labelposition" type="xs:string" use="required" />
-                                    <xs:attribute name="labeloffset" type="xs:unsignedByte" use="required" />
-                                    <xs:attribute name="labelalign" type="xs:string" use="required" />
-                                    <xs:attribute name="labelalignoffset" type="xs:string" use="optional" />
-                                    <xs:attribute name="name" type="xs:string" use="required" />
-                                    <xs:attribute name="style" type="xs:string" use="required" />
-                                    <xs:attribute name="labelstyle" type="xs:string" use="required" />
-                                    <xs:attribute name="member" type="xs:string" use="required" />
-                                    <xs:attribute name="block" type="xs:string" use="required" />
-                                    <xs:attribute name="required" type="xs:boolean" use="optional" />
-                                    <xs:attribute name="maxlength" type="xs:unsignedByte" use="required" />
-                                    <xs:attribute name="datatype" type="xs:string" use="required" />
-                                    <xs:attribute name="case" type="xs:string" use="required" />
-                                    <xs:attribute name="formatmask" type="xs:string" use="optional" />
-                                    <xs:attribute name="validation" type="xs:string" use="optional" />
-                                  </xs:complexType>
-                                </xs:element>
-                              </xs:sequence>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                        <xs:attribute name="top" type="xs:string" use="required" />
-                        <xs:attribute name="left" type="xs:string" use="required" />
-                        <xs:attribute name="width" type="xs:string" use="required" />
-                        <xs:attribute name="height" type="xs:string" use="required" />
-                        <xs:attribute name="name" type="xs:string" use="required" />
-                        <xs:attribute name="block" type="xs:string" use="required" />
+                        <xs:attribute name="label" type="xs:string" />
+                        <xs:attribute name="value" type="xs:string" />
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
-                  <xs:attribute name="width" type="xs:string" use="required" />
-                  <xs:attribute name="height" type="xs:string" use="required" />
-                  <xs:attribute name="top" type="xs:string" use="required" />
-                  <xs:attribute name="left" type="xs:string" use="required" />
-                  <xs:attribute name="name" type="xs:string" use="required" />
-                  <xs:attribute name="label" type="xs:string" use="required" />
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="text">
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:string">
-                      <xs:attribute name="fontfamily" type="xs:string" use="required" />
-                      <xs:attribute name="fontsize" type="xs:string" use="required" />
-                      <xs:attribute name="fontcolor" type="xs:string" use="required" />
-                      <xs:attribute name="name" type="xs:string" use="required" />
-                      <xs:attribute name="left" type="xs:string" use="required" />
-                      <xs:attribute name="top" type="xs:string" use="required" />
-                      <xs:attribute name="width" type="xs:string" use="required" />
-                      <xs:attribute name="height" type="xs:string" use="required" />
-                      <xs:attribute name="bordertype" type="xs:string" use="required" />
-                    </xs:extension>
-                  </xs:simpleContent>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
-            <xs:attribute name="width" type="xs:string" use="required" />
-            <xs:attribute name="height" type="xs:string" use="required" />
-            <xs:attribute name="top" type="xs:string" use="required" />
-            <xs:attribute name="left" type="xs:string" use="required" />
-            <xs:attribute name="id" type="xs:string" use="required" />
-            <xs:attribute name="name" type="xs:string" use="required" />
-            <xs:attribute name="class" type="xs:string" use="required" />
-            <xs:attribute name="menu" type="xs:string" use="required" />
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-      <xs:attribute name="layout" type="xs:string" use="required" />
-    </xs:complexType>
-  </xs:element>
-</xs:schema>
+            <xs:attributeGroup ref="label" />
+            <xs:attributeGroup ref="action" />
+          </xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="listbox">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="control">
+            <xs:attributeGroup ref="label" />
+  					<xs:attribute name="multiple" type="xs:boolean" default="false" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="checkbox">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="bindcontrol">
+            <xs:attributeGroup ref="label" />
+  					<xs:attribute name="value" type="xs:string" use="required" />
+            <xs:attribute name="falsevalue" type="xs:string" use="required" />
+            <xs:attribute name="othervaluestate" default="unchecked" >
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="checked" />
+                  <xs:enumeration value="unchecked" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="radiobox">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="control">
+            <xs:attributeGroup ref="label" />
+  					<xs:attribute name="group" type="xs:QName" />
+  					<xs:attribute name="value" type="xs:string" use="required" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="radiogroup">
+  		<xs:complexType>
+  			<xs:complexContent>
+          <xs:extension base="bindcontrol" >
+            <xs:attribute name="othervalue" type="xs:string"  />
+            <xs:attributeGroup ref="action" />
+          </xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="calendar">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="editablecontrol">
+            <xs:attributeGroup ref="label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+    <xs:element name="lovbox">
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="editablecontrol">
+            <xs:attributeGroup ref="label" />
+            <xs:attribute name="validatefromlist" type="xs:boolean" default ="false" />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+  	<!--Views-->
+  	<xs:complexType name="view">
+  		<xs:complexContent>
+  			<xs:extension base="base">
+  				<xs:attributeGroup ref="Label" />
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>
+  	<xs:element name="listview">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="view">
+  					<xs:sequence>
+  						<xs:element ref="viewheader" />
+  					</xs:sequence>
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="Orientation" />
+  					<xs:attributeGroup ref="dimensions" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="gridview">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="view">
+  					<xs:sequence>
+  						<xs:element ref="viewheader" />
+  					</xs:sequence>
+            <xs:attribute name="id" type ="xs:QName" />
+            <xs:attribute name="block" type ="xs:QName" />
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="Orientation" />
+  					<xs:attributeGroup ref="dimensions" />
+            <xs:attributeGroup ref="position" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="treeview">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="Label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="menuview">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="view">
+  					<xs:sequence maxOccurs="unbounded">
+  						<xs:element ref="menu" minOccurs="0" />
+  						<xs:element ref="menuitem" minOccurs="0" />
+  					</xs:sequence>
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="Orientation" />
+  					<xs:attributeGroup ref="position" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<!--View Commons-->
+  	<xs:element name="viewheader">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:choice>
+  						<xs:sequence maxOccurs="unbounded">
+  							<xs:element ref="viewcolumn" minOccurs="0" />
+  							<xs:element ref="viewheader" minOccurs="0" />
+  						</xs:sequence>
+  					</xs:choice>
+  					<xs:attributeGroup ref="label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="viewcolumn">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="editablecontrol">
+            <xs:sequence minOccurs="0" maxOccurs ="unbounded">
+              <xs:element name="editor" />
+            </xs:sequence>
+            <xs:attributeGroup ref="label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	
+  	<!--Other-->
+  	<xs:complexType name="other" abstract="true">
+  		<xs:complexContent>
+  			<xs:extension base="base">
+  				<xs:attributeGroup ref="style" />
+  				<xs:attributeGroup ref="Visible" />
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>
+  	<xs:element name="text">
+  		<xs:complexType>
+  			<xs:simpleContent>
+  				<xs:extension base="baseSimpleElement">
+            <xs:attributeGroup ref ="style" />
+  					<xs:attribute name="locale" type="xs:boolean" default="true"/>
+  				</xs:extension>
+  			</xs:simpleContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="image">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="other">
+  					<xs:attributeGroup ref="Name" />
+  					<!--<xs:attributeGroup ref="file" />-->
+  					<xs:attributeGroup ref="dimensions" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+    <xs:element name="interactionblock">
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="base">
+            <xs:attributeGroup ref="Name" />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+  	<xs:element name="menu">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="other">
+  					<xs:sequence maxOccurs="unbounded">
+  						<xs:element ref="menu" minOccurs="0" />
+  						<xs:choice>
+  							<xs:element ref="menuitem" />
+  						</xs:choice>
+  					</xs:sequence>
+  					<xs:attributeGroup ref="Name" />
+  					<xs:attributeGroup ref="Label" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:element name="menuitem">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="other">
+  					<xs:attributeGroup ref="Label" />
+  					<xs:attribute name="description" type="xs:string" />
+  					<xs:attributeGroup ref="action" />
+  					<xs:attributeGroup ref="href" />
+  					<xs:attribute name="type" default="none">
+  						<xs:simpleType>
+  							<xs:restriction base="xs:string">
+  								<xs:enumeration value="none" />
+  								<xs:enumeration value="check" />
+  							</xs:restriction>
+  						</xs:simpleType>
+  					</xs:attribute>
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  	<xs:group name="Component">
+  		<xs:choice>
+  			<xs:group ref="viewcomponent" />
+  			<xs:group ref="formcomponent" />
+  		</xs:choice>
+  	</xs:group>
+  	<xs:group name="viewcomponent">
+  		<xs:choice>
+  			<xs:element ref="text" />
+  			<xs:element ref="image" />
+  			<xs:element ref="menuview" />
+        <xs:element ref="interactionblock" />
+  		</xs:choice>
+  	</xs:group>
+  	<xs:group name="formcomponent">
+  		<xs:choice>
+  			<xs:element ref="button" />
+  			<xs:element ref="textbox" />
+        <xs:element ref="textfield" />
+  			<xs:element ref="textarea" />
+  			<xs:element ref="combobox" />
+  			<xs:element ref="listbox" />
+  			<xs:element ref="checkbox" />
+  			<xs:element ref="radiobox" />
+  			<xs:element ref="radiogroup" />
+  			<xs:element ref="calendar" />
+        <xs:element ref="lovbox" />
+  			<xs:element ref="listview" />
+  			<xs:element ref="gridview" />
+  			<xs:element ref="treeview" />
+  		</xs:choice>
+  	</xs:group>
+  	
+  	<xs:element name="include">
+  		<xs:complexType>
+  			<xs:complexContent>
+  				<xs:extension base="base">
+  					<xs:attributeGroup ref="Name" />
+  				</xs:extension>
+  			</xs:complexContent>
+  		</xs:complexType>
+  	</xs:element>
+  </xs:schema>
