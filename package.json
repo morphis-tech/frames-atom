@@ -9,7 +9,7 @@
     "grammar",
     "syntax"
   ],
-  "repository": "git@github.com:morphis-tech/frames-atom.git",
+  "repository": "https://git.morphis-tech.com/frames/atom.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
