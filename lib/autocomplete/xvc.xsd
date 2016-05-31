@@ -1,778 +1,2137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="urn:schemas:morphis:frames:view" xmlns:xv="urn:schemas:morphis:frames:view" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-  elementFormDefault="qualified" attributeFormDefault="unqualified">
-  	<!-- Common -->
-  	<xs:simpleType name="dimension">
-  		<xs:restriction base="xs:string">
-  			<xs:pattern value="-?([0-9])+(em|px){0,1}"/>
-  		</xs:restriction>
-  	</xs:simpleType>
-    <xs:simpleType name="size">
-      <xs:restriction base="xs:string">
-        <xs:pattern value="-?([0-9])+(pt){0,1}"/>
-      </xs:restriction>
-    </xs:simpleType>
-  	<xs:simpleType name="position">
-  		<xs:restriction base="xs:string">
-  			<xs:enumeration value="top"/>
-  			<xs:enumeration value="bottom" />
-  			<xs:enumeration value="left" />
-  			<xs:enumeration value="right" />
-  		</xs:restriction>
-  	</xs:simpleType>
-  	<xs:attributeGroup name="Name">
-  		<xs:attribute name="name" type="xs:QName" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="style">
-  		<xs:attribute name="style" type="xs:string" />
-      <xs:attribute name="backgroundcolor" type="xs:string" />
-      <xs:attribute name="foregroundcolor" type="xs:string" />
-      <xs:attribute name="fontfamily" type="xs:string" />
-      <xs:attribute name="fontcolor" type="xs:string" />
-      <xs:attribute name="fontsize" type="size" />
-      <xs:attribute name="bordertype" type="xs:string" />
-      <xs:attribute name="textalign" default="left" >
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="left" />
-            <xs:enumeration value="right" />
-            <xs:enumeration value="center" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:attribute>
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="position">
-  		<xs:attribute name="top" type="dimension">
-  			<xs:annotation>
-  				<xs:documentation>Sets the top position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
-  			</xs:annotation>
-  		</xs:attribute>
-  		<xs:attribute name="left" type="dimension">
-  			<xs:annotation>
-  				<xs:documentation>Sets the left position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
-  			</xs:annotation>
-  		</xs:attribute>
-  		<xs:attribute name="bottom" type="dimension">
-  			<xs:annotation>
-  				<xs:documentation>Sets the bottom position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
-  			</xs:annotation>
-  		</xs:attribute>
-  		<xs:attribute name="right" type="dimension">
-  			<xs:annotation>
-  				<xs:documentation>Sets the right position of the element relative to it's parent element. Only valid when layout is absolute or inside a positionlayout.</xs:documentation>
-  			</xs:annotation>
-  		</xs:attribute>
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="dimensions">
-  		<xs:attribute name="width" type="dimension"/>
-  		<xs:attribute name="height" type="dimension"/>
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="Enabled">
-  		<xs:attribute name="enabled" type="xs:boolean" default="true" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="Visible">
-  		<xs:attribute name="visible" type="xs:boolean" default="true" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="Readonly">
-  		<xs:attribute name="readonly" type="xs:boolean" default="false" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="Label">
-  		<xs:attribute name="label" type="xs:string" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="label">
-  		<xs:attribute name="label" type="xs:string" />
-      <xs:attribute name="labelposition" default="left" >
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="left" />
-            <xs:enumeration value="right" />
-            <xs:enumeration value="top" />
-            <xs:enumeration value="bottom" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:attribute>
-      <xs:attribute name="labeloffset" type="dimension" />
-      <xs:attribute name="labelalignoffset" type="dimension" />
-      <xs:attribute name="labelalign" default="start" >
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="start" />
-            <xs:enumeration value="end" />
-            <xs:enumeration value="center" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:attribute>
-      <xs:attribute name="labelstyle" type="xs:string" />
-      <xs:attribute name="labelfontfamily" type="xs:string" />
-      <xs:attribute name="labelcolor" type="xs:string" />
-      <xs:attribute name="labelfontsize" type="size" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="action">
-  		<xs:attribute name="action" type="xs:string" />
-  	</xs:attributeGroup>
-  	<xs:attributeGroup name="Orientation">
-  		<xs:attribute name="orientation" default="vertical">
-  			<xs:simpleType>
-  				<xs:restriction base="xs:string">
-  					<xs:enumeration value="horizontal" />
-  					<xs:enumeration value="vertical" />
-  				</xs:restriction>
-  			</xs:simpleType>
-  		</xs:attribute>
-  	</xs:attributeGroup>
-    <xs:attributeGroup name="bind">
-      <xs:attribute name="member" type="xs:string" />
-      <xs:attribute name="block" type="xs:string" />
-      <xs:attribute name="datatype" type="xs:string" />
-      <xs:attribute name="maxlength" type="xs:int" />
-    </xs:attributeGroup>
-  	<xs:attributeGroup name="href">
-  		<xs:attribute name="href" type="xs:string" />
-  	</xs:attributeGroup>
-  
-  
-  	<xs:complexType name="base" abstract="true">
-  	</xs:complexType>
-  
-  	<xs:element name="config">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:sequence maxOccurs="unbounded">
-  						<xs:element ref="include" minOccurs="0" />
-  						<xs:choice>
-  							<xs:group ref="Panel" minOccurs="0" />
-  							<xs:group ref="viewcomponent" minOccurs="0" />
-  						</xs:choice>
-  					</xs:sequence>
-  					<xs:attribute name="title" type="xs:string" />
-  					<xs:attribute name="extends" type="xs:string" />
-  					<xs:attribute name="logic" type="xs:string" />
-            <xs:attribute name="layout"  >
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value="positional" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-    
-    <!-- EVENT-->
-    <xs:complexType name ="event">
-        <xs:attribute name="name" type="xs:string" />
-        <xs:attribute name="action" type="xs:string" />
-     </xs:complexType>
-  	<!--PANELS-->
-  	<xs:complexType name="unamedElement" abstract="true">
-  		<xs:complexContent>
-  			<xs:extension base="base">
-  				<xs:attributeGroup ref="style" />
-  				<xs:attributeGroup ref="Enabled" />
-  				<xs:attributeGroup ref="Visible" />
-  			</xs:extension>
-  		</xs:complexContent>
-  	</xs:complexType>
-  	<xs:complexType name="unamedSimpleElement" abstract="true">
-  		<xs:simpleContent>
-  			<xs:extension base="xs:string">
-  				<xs:attributeGroup ref="style" />
-  				<xs:attributeGroup ref="Enabled" />
-  				<xs:attributeGroup ref="Visible" />
-  			</xs:extension>
-  		</xs:simpleContent>
-  	</xs:complexType>
-  
-  	<xs:complexType name="baseElement" abstract="true">
-  		<xs:complexContent>
-  			<xs:extension base="unamedElement">
-  				<xs:attributeGroup ref="Name" />
-  				<xs:attributeGroup ref="position" />
-  				<xs:attributeGroup ref="dimensions" />
-          <xs:attribute name="menu" type="xs:QName" />
-  			</xs:extension>
-  		</xs:complexContent>
-  	</xs:complexType>
-  
-  	<xs:complexType name="baseSimpleElement" abstract="true">
-  		<xs:simpleContent>
-  			<xs:extension base="unamedSimpleElement">
-  				<xs:attributeGroup ref="Name" />
-  				<xs:attributeGroup ref="position" />
-  				<xs:attributeGroup ref="dimensions" />
-  			</xs:extension>
-  		</xs:simpleContent>
-  	</xs:complexType>
-    
-   
-  
-    <xs:complexType name="basePanel" abstract="true">
-      <xs:complexContent>
-        <xs:extension base="baseElement">
-          <xs:attribute name="id" type ="xs:QName" />
-          <xs:attribute name="class" type ="xs:QName" />
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-    
-  	<xs:element name="panel">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="basePanel">
-  					<xs:group ref="PanelContent" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="tabpanel">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="basePanel">
-  					<xs:sequence>
-  						<xs:element ref="tab" maxOccurs="unbounded" />
-  					</xs:sequence>
-  					<xs:attribute name="tabposition" type="position" default="top" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="tab">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="unamedElement">
-  					<xs:group ref="PanelContent" />
-  					<xs:attributeGroup ref="Label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="framepanel">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="baseElement">
-  					<xs:group ref="PanelContent" />
-  					<xs:attributeGroup ref="Label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="formpanel">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:choice>
-  						<xs:group ref="Layout" />
-  						<xs:sequence maxOccurs="unbounded">
-  							<xs:group ref="Panel" minOccurs="0" />
-  							<xs:group ref="Component" minOccurs="0" />
-  						</xs:sequence>
-  					</xs:choice>
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="action" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="positionpanel">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="baseElement">
-  					<xs:group ref="PanelContent" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:group name="Panel">
-  		<xs:choice>
-  			<xs:group ref="panel" />
-  		</xs:choice>
-  	</xs:group>
-  	<xs:group name="panel">
-  		<xs:choice>
-  			<xs:element ref="panel" />
-  			<xs:element ref="tabpanel" />
-  			<xs:element ref="framepanel" />
-  			<xs:element ref="formpanel" />
-  			<xs:element ref="positionpanel" />
-  		</xs:choice>
-  	</xs:group>
-  	<xs:group name="PanelContent">
-  		<xs:choice>
-  			<xs:group ref="Layout" />
-  			<xs:sequence maxOccurs="unbounded">
-  				<xs:group ref="Panel" minOccurs="0" />
-  				<xs:group ref="Component" minOccurs="0" />
-  			</xs:sequence>
-  		</xs:choice>
-  	</xs:group>
-  	
-  	<!--Panel Layout-->
-  	<xs:element name="flowlayout">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:group ref="LayoutContent" />
-  					<xs:attributeGroup ref="Orientation" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="gridflowlayout">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:group ref="LayoutContent" />
-  					<xs:attribute name="cols" type="xs:integer" use="required" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="gridcell">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:group ref="PanelContent" />
-  					<xs:attribute name="colspan" type="xs:integer" default="1" />
-  					<xs:attribute name="rowspan" type="xs:integer" default="1" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="positionlayout">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:group ref="LayoutContent" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="area">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:group ref="PanelContent" />
-  					<xs:attribute name="name" type="borderposition" use="required"/>
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:simpleType name="borderposition">
-  		<xs:restriction base="xs:string">
-  			<xs:enumeration value="top"/>
-  			<xs:enumeration value="bottom" />
-  			<xs:enumeration value="left" />
-  			<xs:enumeration value="right" />
-  			<xs:enumeration value="center" />
-  		</xs:restriction>
-  	</xs:simpleType>
-  	<xs:group name="Layout">
-  		<xs:choice>
-  			<xs:element ref="borderlayout" />
-  			<xs:element ref="flowlayout" />
-  			<xs:element ref="gridlayout" />
-  			<xs:element ref="gridflowlayout" />
-  			<xs:element ref="positionlayout" />
-  		</xs:choice>
-  	</xs:group>
-  	<xs:group name="LayoutContent">
-  		<xs:sequence>
-  			<xs:sequence maxOccurs="unbounded">
-  				<xs:group ref="Panel" minOccurs="0" />
-  				<xs:group ref="Component" minOccurs="0" />
-  			</xs:sequence>
-  		</xs:sequence>
-  	</xs:group>
-  	
-  	<!--Components-->
-  	<!--Form Components-->
-  	<xs:complexType name="control" abstract="true">
-  		<xs:complexContent>
-  			<xs:extension base="baseElement">
-          <xs:sequence minOccurs="0" maxOccurs ="unbounded">
-            <xs:element name="event" type="event" />
-          </xs:sequence>				
-  				<xs:attribute name="disabled" type="xs:boolean" default="false" />
-          
-          <xs:attribute name="tooltip" type="xs:string"  />
-          <xs:attribute name="hint" type="xs:string"  />
-  			</xs:extension>
-  		</xs:complexContent>
-  	</xs:complexType>
-    <xs:complexType name="bindcontrol" abstract="true">
-      <xs:complexContent>
-        <xs:extension base="control">
-          <xs:attributeGroup ref="bind" />
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="editablecontrol" abstract="true">
-      <xs:complexContent>
-        <xs:extension base="bindcontrol">
-          <xs:attribute name="required" type="xs:boolean" default="false" />
-          <xs:attribute name="formatmask" type="xs:string"  />
-          <xs:attribute name="readonly" type="xs:boolean" default="false" />
-          <xs:attribute name="case" default="mixed" >
-            <xs:simpleType>
-              <xs:restriction base="xs:string">
-                <xs:enumeration value="mixed" />
-                <xs:enumeration value="upper" />
-                <xs:enumeration value="lower" />
-              </xs:restriction>
-            </xs:simpleType>
-          </xs:attribute>
-          <xs:attribute name="validation" >
-            <xs:simpleType>
-              <xs:restriction base="xs:string">
-                <xs:enumeration value="server" />
-              </xs:restriction>
-            </xs:simpleType>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>   
-  	<xs:element name="button">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="bindcontrol">
-            <xs:attributeGroup ref="label" />
-  					<xs:attributeGroup ref="action" />
-            <xs:attribute name="icon" type ="xs:string" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="textbox">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="editablecontrol">
-            <xs:attributeGroup ref="label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-    <xs:element name="textfield">
-      <xs:complexType>
-        <xs:complexContent>
-          <xs:extension base="editablecontrol">
-            <xs:attributeGroup ref="label" />
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-    </xs:element>
-  	<xs:element name="textarea">
-  		<xs:complexType>
-  			<xs:complexContent>
-          <xs:extension base="editablecontrol">
-            <xs:attributeGroup ref="label" />
-          </xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="combobox">
-  		<xs:complexType>
-  			<xs:complexContent>
-          <xs:extension base="bindcontrol" >
-            <xs:sequence>
-              <xs:element name ="model" minOccurs ="0" maxOccurs ="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:attribute name="label" type="xs:string" />
-                        <xs:attribute name="value" type="xs:string" />
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attributeGroup ref="label" />
-            <xs:attributeGroup ref="action" />
-          </xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="listbox">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="control">
-            <xs:attributeGroup ref="label" />
-  					<xs:attribute name="multiple" type="xs:boolean" default="false" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="checkbox">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="bindcontrol">
-            <xs:attributeGroup ref="label" />
-  					<xs:attribute name="value" type="xs:string" use="required" />
-            <xs:attribute name="falsevalue" type="xs:string" use="required" />
-            <xs:attribute name="othervaluestate" default="unchecked" >
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value="checked" />
-                  <xs:enumeration value="unchecked" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="radiobox">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="control">
-            <xs:attributeGroup ref="label" />
-  					<xs:attribute name="group" type="xs:QName" />
-  					<xs:attribute name="value" type="xs:string" use="required" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="radiogroup">
-  		<xs:complexType>
-  			<xs:complexContent>
-          <xs:extension base="bindcontrol" >
-            <xs:attribute name="othervalue" type="xs:string"  />
-            <xs:attributeGroup ref="action" />
-          </xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="calendar">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="editablecontrol">
-            <xs:attributeGroup ref="label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-    <xs:element name="lovbox">
-      <xs:complexType>
-        <xs:complexContent>
-          <xs:extension base="editablecontrol">
-            <xs:attributeGroup ref="label" />
-            <xs:attribute name="validatefromlist" type="xs:boolean" default ="false" />
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-    </xs:element>
-  	<!--Views-->
-  	<xs:complexType name="view">
-  		<xs:complexContent>
-  			<xs:extension base="base">
-  				<xs:attributeGroup ref="Label" />
-  			</xs:extension>
-  		</xs:complexContent>
-  	</xs:complexType>
-  	<xs:element name="listview">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="view">
-  					<xs:sequence>
-  						<xs:element ref="viewheader" />
-  					</xs:sequence>
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="Orientation" />
-  					<xs:attributeGroup ref="dimensions" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="gridview">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="view">
-  					<xs:sequence>
-  						<xs:element ref="viewheader" />
-  					</xs:sequence>
-            <xs:attribute name="id" type ="xs:QName" />
-            <xs:attribute name="block" type ="xs:QName" />
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="Orientation" />
-  					<xs:attributeGroup ref="dimensions" />
-            <xs:attributeGroup ref="position" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="treeview">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="Label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="menuview">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="view">
-  					<xs:sequence maxOccurs="unbounded">
-  						<xs:element ref="menu" minOccurs="0" />
-  						<xs:element ref="menuitem" minOccurs="0" />
-  					</xs:sequence>
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="Orientation" />
-  					<xs:attributeGroup ref="position" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<!--View Commons-->
-  	<xs:element name="viewheader">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:choice>
-  						<xs:sequence maxOccurs="unbounded">
-  							<xs:element ref="viewcolumn" minOccurs="0" />
-  							<xs:element ref="viewheader" minOccurs="0" />
-  						</xs:sequence>
-  					</xs:choice>
-  					<xs:attributeGroup ref="label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="viewcolumn">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="editablecontrol">
-            <xs:sequence minOccurs="0" maxOccurs ="unbounded">
-              <xs:element name="editor" />
-            </xs:sequence>
-            <xs:attributeGroup ref="label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	
-  	<!--Other-->
-  	<xs:complexType name="other" abstract="true">
-  		<xs:complexContent>
-  			<xs:extension base="base">
-  				<xs:attributeGroup ref="style" />
-  				<xs:attributeGroup ref="Visible" />
-  			</xs:extension>
-  		</xs:complexContent>
-  	</xs:complexType>
-  	<xs:element name="text">
-  		<xs:complexType>
-  			<xs:simpleContent>
-  				<xs:extension base="baseSimpleElement">
-            <xs:attributeGroup ref ="style" />
-  					<xs:attribute name="locale" type="xs:boolean" default="true"/>
-  				</xs:extension>
-  			</xs:simpleContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="image">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="other">
-  					<xs:attributeGroup ref="Name" />
-  					<!--<xs:attributeGroup ref="file" />-->
-  					<xs:attributeGroup ref="dimensions" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-    <xs:element name="interactionblock">
-      <xs:complexType>
-        <xs:complexContent>
-          <xs:extension base="base">
-            <xs:attributeGroup ref="Name" />
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-    </xs:element>
-  	<xs:element name="menu">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="other">
-  					<xs:sequence maxOccurs="unbounded">
-  						<xs:element ref="menu" minOccurs="0" />
-  						<xs:choice>
-  							<xs:element ref="menuitem" />
-  						</xs:choice>
-  					</xs:sequence>
-  					<xs:attributeGroup ref="Name" />
-  					<xs:attributeGroup ref="Label" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:element name="menuitem">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="other">
-  					<xs:attributeGroup ref="Label" />
-  					<xs:attribute name="description" type="xs:string" />
-  					<xs:attributeGroup ref="action" />
-  					<xs:attributeGroup ref="href" />
-  					<xs:attribute name="type" default="none">
-  						<xs:simpleType>
-  							<xs:restriction base="xs:string">
-  								<xs:enumeration value="none" />
-  								<xs:enumeration value="check" />
-  							</xs:restriction>
-  						</xs:simpleType>
-  					</xs:attribute>
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  	<xs:group name="Component">
-  		<xs:choice>
-  			<xs:group ref="viewcomponent" />
-  			<xs:group ref="formcomponent" />
-  		</xs:choice>
-  	</xs:group>
-  	<xs:group name="viewcomponent">
-  		<xs:choice>
-  			<xs:element ref="text" />
-  			<xs:element ref="image" />
-  			<xs:element ref="menuview" />
-        <xs:element ref="interactionblock" />
-  		</xs:choice>
-  	</xs:group>
-  	<xs:group name="formcomponent">
-  		<xs:choice>
-  			<xs:element ref="button" />
-  			<xs:element ref="textbox" />
-        <xs:element ref="textfield" />
-  			<xs:element ref="textarea" />
-  			<xs:element ref="combobox" />
-  			<xs:element ref="listbox" />
-  			<xs:element ref="checkbox" />
-  			<xs:element ref="radiobox" />
-  			<xs:element ref="radiogroup" />
-  			<xs:element ref="calendar" />
-        <xs:element ref="lovbox" />
-  			<xs:element ref="listview" />
-  			<xs:element ref="gridview" />
-  			<xs:element ref="treeview" />
-  		</xs:choice>
-  	</xs:group>
-  	
-  	<xs:element name="include">
-  		<xs:complexType>
-  			<xs:complexContent>
-  				<xs:extension base="base">
-  					<xs:attributeGroup ref="Name" />
-  				</xs:extension>
-  			</xs:complexContent>
-  		</xs:complexType>
-  	</xs:element>
-  </xs:schema>
+<xsd:schema xmlns:ns="urn:schemas:morphis:frames:view" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:schemas:morphis:frames:view" elementFormDefault="qualified">
+   <xsd:complexType name="base" abstract="true"/>
+   <xsd:complexType name="editor">
+      <xsd:sequence>
+         <xsd:choice>
+            <xsd:element name="checkbox" type="editorCheckbox" minOccurs="0"/>
+            <xsd:element ref="calendar" minOccurs="0"/>
+            <xsd:element ref="button" minOccurs="0"/>
+            <xsd:element ref="lovbox" minOccurs="0"/>
+            <xsd:element ref="combobox" minOccurs="0"/>
+            <xsd:element ref="colorpicker" minOccurs="0"/>
+            <xsd:element name="slider" type="slider" minOccurs="0"/>
+            <xsd:element ref="calculator" minOccurs="0"/>
+            <xsd:element ref="editbox" minOccurs="0"/>
+            <xsd:element ref="image" minOccurs="0"/>
+            <xsd:element ref="textfield" minOccurs="0"/>
+            <xsd:element ref="textlink" minOccurs="0"/>
+         </xsd:choice>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="include">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice>
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+               <xsd:element ref="extension" minOccurs="0"/>
+               <xsd:element name="_childs" type="base" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            </xsd:sequence>
+            <xsd:attribute name="src" type="xsd:string" use="required"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="viewHeader">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="labelalign" type="xsd:string"/>
+            <xsd:attribute name="labelstyle" type="xsd:string"/>
+            <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+            <xsd:attribute name="labelcolor" type="xsd:string"/>
+            <xsd:attribute name="labelfontsize" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="viewGrouping">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element name="group" type="viewGroup" minOccurs="0"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="viewGroup">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element name="column" type="column" minOccurs="0"/>
+                  <xsd:element name="total" type="total" minOccurs="0"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="column">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence/>
+            <xsd:attribute name="member" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="total">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence/>
+            <xsd:attribute name="member" type="xsd:string"/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="type" type="xsd:string"/>
+            <xsd:attribute name="source" type="xsd:string"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+            <xsd:attribute name="textalign" type="xsd:string"/>
+            <xsd:attribute name="datatype" type="xsd:string"/>
+            <xsd:attribute name="formatmask" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="gridTotals">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element name="group" type="group" minOccurs="0"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="group">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element name="total" type="gridtotals-group-total" minOccurs="0"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="view" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="member" type="xsd:string"/>
+            <xsd:attribute name="block" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="unamedElement" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence/>
+            <xsd:attribute name="visible" type="xsd:boolean"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+            <xsd:attribute name="backgroundcolor" type="xsd:string"/>
+            <xsd:attribute name="foregroundcolor" type="xsd:string"/>
+            <xsd:attribute name="fontfamily" type="xsd:string"/>
+            <xsd:attribute name="fontcolor" type="xsd:string"/>
+            <xsd:attribute name="fontsize" type="xsd:string"/>
+            <xsd:attribute name="bordertype" type="xsd:string"/>
+            <xsd:attribute name="textalign" type="xsd:string"/>
+            <xsd:attribute name="enabled" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="repeater">
+      <xsd:complexContent>
+         <xsd:extension base="bindcontrol">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="pager" type="xsd:boolean"/>
+            <xsd:attribute name="layout" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="borderLayoutArea">
+      <xsd:sequence>
+         <xsd:choice maxOccurs="unbounded">
+            <xsd:element ref="lovbox"/>
+            <xsd:element ref="filebox"/>
+            <xsd:element ref="gridcell"/>
+            <xsd:element ref="checkbox"/>
+            <xsd:element ref="gridlayout"/>
+            <xsd:element ref="yaxis"/>
+            <xsd:element ref="accordion"/>
+            <xsd:element ref="calendar"/>
+            <xsd:element ref="colorpicker"/>
+            <xsd:element ref="interactionblock"/>
+            <xsd:element ref="include"/>
+            <xsd:element ref="textlink"/>
+            <xsd:element ref="listbox"/>
+            <xsd:element ref="xhtml"/>
+            <xsd:element ref="positionlayout"/>
+            <xsd:element ref="flowlayout"/>
+            <xsd:element ref="gridflowlayout"/>
+            <xsd:element ref="xaxis"/>
+            <xsd:element ref="gridview"/>
+            <xsd:element ref="framepanel"/>
+            <xsd:element ref="radiobox"/>
+            <xsd:element ref="calculator"/>
+            <xsd:element ref="formpanel"/>
+            <xsd:element ref="tab"/>
+            <xsd:element ref="piechart"/>
+            <xsd:element ref="image"/>
+            <xsd:element ref="viewcolumn"/>
+            <xsd:element ref="inputbutton"/>
+            <xsd:element ref="treeview"/>
+            <xsd:element ref="slider"/>
+            <xsd:element ref="textarea"/>
+            <xsd:element ref="legend"/>
+            <xsd:element ref="listview"/>
+            <xsd:element ref="config"/>
+            <xsd:element ref="checkbox"/>
+            <xsd:element ref="menu"/>
+            <xsd:element ref="widget"/>
+            <xsd:element ref="series"/>
+            <xsd:element ref="positionpanel"/>
+            <xsd:element ref="borderlayout"/>
+            <xsd:element ref="panel"/>
+            <xsd:element ref="component"/>
+            <xsd:element ref="linechart"/>
+            <xsd:element ref="textbox"/>
+            <xsd:element ref="radiogroup"/>
+            <xsd:element ref="viewheader"/>
+            <xsd:element ref="repeater"/>
+            <xsd:element ref="pager"/>
+            <xsd:element ref="editbox"/>
+            <xsd:element ref="tabpanel"/>
+            <xsd:element ref="button"/>
+            <xsd:element ref="window"/>
+            <xsd:element ref="menuitem"/>
+            <xsd:element ref="text"/>
+            <xsd:element ref="combobox"/>
+            <xsd:element ref="barchart"/>
+            <xsd:element ref="textfield"/>
+            <xsd:element ref="menuview"/>
+            <xsd:element ref="collapsiblepanel"/>
+         </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="borderposition" use="required"/>
+   </xsd:complexType>
+   <xsd:complexType name="window">
+      <xsd:complexContent>
+         <xsd:extension base="root">
+            <xsd:sequence/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="width" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="config">
+      <xsd:complexContent>
+         <xsd:extension base="root">
+            <xsd:sequence/>
+            <xsd:attribute name="width" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="pager">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="block" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="panel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="tab">
+      <xsd:complexContent>
+         <xsd:extension base="unamedElement">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="id" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="gridLayoutCell">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="colspan" type="xsd:int"/>
+            <xsd:attribute name="rowspan" type="xsd:int"/>
+            <xsd:attribute name="width" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="framePanel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="label" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="checkbox">
+      <xsd:complexContent>
+         <xsd:extension base="checkboxbase">
+            <xsd:sequence/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="tabPanel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <!--<xsd:element ref="event" minOccurs="0" maxOccurs="unbounded"/>-->
+               <xsd:element name="tab" type="tab" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="borderLayout">
+      <xsd:complexContent>
+         <xsd:extension base="layout">
+            <xsd:sequence>
+               <xsd:element name="area" type="borderLayoutArea" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="gridLayout">
+      <xsd:complexContent>
+         <xsd:extension base="layout">
+            <xsd:sequence>
+               <xsd:element name="gridcell" type="gridLayoutCell" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="cols" type="xsd:integer"/>
+            <xsd:attribute name="orientation" type="floworientation"/>
+            <xsd:attribute name="direction" type="griddirection"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="positionLayout">
+      <xsd:complexContent>
+         <xsd:extension base="layout">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="flowLayout">
+      <xsd:complexContent>
+         <xsd:extension base="layout">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="orientation" type="floworientation"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="gridFlowLayout">
+      <xsd:complexContent>
+         <xsd:extension base="layout">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="cols" type="xsd:integer" use="required"/>
+            <xsd:attribute name="orientation" type="floworientation"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="gridView">
+      <xsd:complexContent>
+         <xsd:extension base="view">
+            <xsd:sequence>
+               <!--<xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="event" minOccurs="0"/>
+			  </xsd:choice> -->
+               <xsd:element name="viewheader" type="viewHeader"/>
+               <xsd:element name="viewrow" type="viewRow" minOccurs="0"/>
+               <xsd:element name="grouping" type="viewGrouping" minOccurs="0"/>
+               <xsd:element name="totals" type="gridTotals" minOccurs="0"/>
+               <xsd:element name="editpanel" type="editPanel" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="readonly" type="xsd:boolean"/>
+            <xsd:attribute name="fixedcols" type="xsd:int"/>
+            <xsd:attribute name="pager" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="baseChart">
+      <xsd:complexContent>
+         <xsd:extension base="bindcontrol">
+            <xsd:sequence>
+               <xsd:element name="legend" type="chartLegend" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="title" type="xsd:string"/>
+            <xsd:attribute name="subtitle" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="positionPanel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="accordionPanel">
+      <xsd:sequence>
+         <xsd:choice maxOccurs="unbounded">
+            <xsd:element ref="lovbox"/>
+            <xsd:element ref="filebox"/>
+            <xsd:element ref="gridcell"/>
+            <xsd:element ref="checkbox"/>
+            <xsd:element ref="gridlayout"/>
+            <xsd:element ref="yaxis"/>
+            <xsd:element ref="accordion"/>
+            <xsd:element ref="calendar"/>
+            <xsd:element ref="colorpicker"/>
+            <xsd:element ref="interactionblock"/>
+            <xsd:element ref="include"/>
+            <xsd:element ref="textlink"/>
+            <xsd:element ref="listbox"/>
+            <xsd:element ref="xhtml"/>
+            <xsd:element ref="positionlayout"/>
+            <xsd:element ref="flowlayout"/>
+            <xsd:element ref="gridflowlayout"/>
+            <xsd:element ref="xaxis"/>
+            <xsd:element ref="gridview"/>
+            <xsd:element ref="framepanel"/>
+            <xsd:element ref="radiobox"/>
+            <xsd:element ref="calculator"/>
+            <xsd:element ref="formpanel"/>
+            <xsd:element ref="tab"/>
+            <xsd:element ref="piechart"/>
+            <xsd:element ref="image"/>
+            <xsd:element ref="viewcolumn"/>
+            <xsd:element ref="inputbutton"/>
+            <xsd:element ref="treeview"/>
+            <xsd:element ref="slider"/>
+            <xsd:element ref="textarea"/>
+            <xsd:element ref="legend"/>
+            <xsd:element ref="listview"/>
+            <xsd:element ref="config"/>
+            <xsd:element ref="checkbox"/>
+            <xsd:element ref="menu"/>
+            <xsd:element ref="widget"/>
+            <xsd:element ref="series"/>
+            <xsd:element ref="positionpanel"/>
+            <xsd:element ref="borderlayout"/>
+            <xsd:element ref="panel"/>
+            <xsd:element ref="component"/>
+            <xsd:element ref="linechart"/>
+            <xsd:element ref="textbox"/>
+            <xsd:element ref="radiogroup"/>
+            <xsd:element ref="viewheader"/>
+            <xsd:element ref="repeater"/>
+            <xsd:element ref="pager"/>
+            <xsd:element ref="editbox"/>
+            <xsd:element ref="tabpanel"/>
+            <xsd:element ref="button"/>
+            <xsd:element ref="window"/>
+            <xsd:element ref="menuitem"/>
+            <xsd:element ref="text"/>
+            <xsd:element ref="combobox"/>
+            <xsd:element ref="barchart"/>
+            <xsd:element ref="textfield"/>
+            <xsd:element ref="menuview"/>
+            <xsd:element ref="collapsiblepanel"/>
+         </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute name="label" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="collapsiblePanel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="label" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="accordion">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:element name="panel" type="accordionPanel" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="control" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="baseLabelElement">
+            <!--<xsd:sequence>
+               <xsd:element ref="event" minOccurs="0" maxOccurs="unbounded"/>
+		    </xsd:sequence> -->
+            <xsd:attribute name="tooltip" type="xsd:string"/>
+            <xsd:attribute name="hint" type="xsd:string"/>
+            <xsd:attribute name="menu" type="xsd:string"/>
+            <xsd:attribute name="keyactions" type="xsd:string"/>
+            <xsd:attribute name="validation" type="xsd:string"/>
+            <xsd:attribute name="navigable" type="xsd:string"/>
+            <xsd:attribute name="accesskey" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="bindcontrol" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="control">
+            <xsd:sequence/>
+            <xsd:attribute name="member" type="xsd:string"/>
+            <xsd:attribute name="block" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="baseLabelElement" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="labelwidth" type="xsd:string"/>
+            <xsd:attribute name="labelposition" type="xsd:string"/>
+            <xsd:attribute name="labeloffset" type="xsd:string"/>
+            <xsd:attribute name="labelalign" type="xsd:string"/>
+            <xsd:attribute name="labelstyle" type="xsd:string"/>
+            <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+            <xsd:attribute name="labelcolor" type="xsd:string"/>
+            <xsd:attribute name="labelfontsize" type="xsd:string"/>
+            <xsd:attribute name="labeldirection" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="baseElement" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="unamedElement">
+            <xsd:sequence/>
+            <xsd:attribute name="id" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="width" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+            <xsd:attribute name="top" type="xsd:string"/>
+            <xsd:attribute name="left" type="xsd:string"/>
+            <xsd:attribute name="bottom" type="xsd:string"/>
+            <xsd:attribute name="right" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="BaseContainer" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="class" type="xsd:string"/>
+            <xsd:attribute name="menu" type="xsd:string"/>
+            <xsd:attribute name="padding" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="formPanel">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="xHtml">
+      <xsd:complexContent>
+         <xsd:extension base="BaseContainer">
+            <xsd:sequence>
+               <xsd:any processContents="skip" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="editablecontrol" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="textinputcontrol">
+            <xsd:sequence/>
+            <xsd:attribute name="readonly" type="xsd:boolean"/>
+            <xsd:attribute name="required" type="xsd:boolean"/>
+            <xsd:attribute name="autoskip" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="slider">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="block" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="textinputcontrol" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="bindcontrol">
+            <xsd:sequence/>
+            <xsd:attribute name="formatmask" type="xsd:string"/>
+            <xsd:attribute name="case" type="casetype"/>
+            <xsd:attribute name="datatype" type="xsd:string"/>
+            <xsd:attribute name="maxlength" type="xsd:string"/>
+            <xsd:attribute name="minlength" type="xsd:string"/>
+            <xsd:attribute name="direction" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="barChart">
+      <xsd:complexContent>
+         <xsd:extension base="baseChart">
+            <xsd:sequence>
+               <xsd:element name="xaxis" type="xAxis"/>
+               <xsd:element name="yaxis" type="yAxis"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="lineChart">
+      <xsd:complexContent>
+         <xsd:extension base="baseChart">
+            <xsd:sequence>
+               <xsd:element name="xaxis" type="xAxis"/>
+               <xsd:element name="yaxis" type="yAxis"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="pieChart">
+      <xsd:complexContent>
+         <xsd:extension base="baseChart">
+            <xsd:sequence>
+               <xsd:element name="series" type="chartSerie" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="checkboxbase" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="basebutton">
+            <xsd:sequence>
+               <xsd:element name="UNCHECKED_VALUE" type="xsd:string" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="value" type="xsd:string" use="required"/>
+            <xsd:attribute name="falsevalue" type="xsd:string" use="required"/>
+            <xsd:attribute name="othervaluestate" type="xsd:string"/>
+            <xsd:attribute name="unmatchedvalue" type="xsd:string"/>
+            <xsd:attribute name="valueisnull" type="xsd:boolean"/>
+            <xsd:attribute name="falsevalueisnull" type="xsd:boolean"/>
+            <xsd:attribute name="unmatchedvalueisnull" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="editorCheckbox">
+      <xsd:complexContent>
+         <xsd:extension base="checkboxbase">
+            <xsd:sequence/>
+            <xsd:attribute name="headerselection" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="basebutton" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="bindcontrol">
+            <xsd:sequence/>
+            <xsd:attribute name="action" type="xsd:string"/>
+            <xsd:attribute name="actionparams" type="xsd:string"/>
+            <xsd:attribute name="direction" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="chartLegend">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="xAxis">
+      <xsd:complexContent>
+         <xsd:extension base="baseAxis">
+            <xsd:sequence/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="baseAxis">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence>
+               <xsd:element name="category" type="xsd:string" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="title" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="yAxis">
+      <xsd:complexContent>
+         <xsd:extension base="baseAxis">
+            <xsd:sequence/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="chartSerie">
+      <xsd:complexContent>
+         <xsd:extension base="baseElement">
+            <xsd:sequence/>
+            <xsd:attribute name="title" type="xsd:string"/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="member" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="inputbutton">
+      <xsd:complexContent>
+         <xsd:extension base="editablecontrol">
+            <xsd:sequence/>
+            <xsd:attribute name="action" type="xsd:string"/>
+            <xsd:attribute name="actionparams" type="xsd:string"/>
+            <xsd:attribute name="icon" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="baseSimpleElement" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="unamedSimpleElement">
+            <xsd:sequence/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="width" type="xsd:string"/>
+            <xsd:attribute name="height" type="xsd:string"/>
+            <xsd:attribute name="top" type="xsd:string"/>
+            <xsd:attribute name="left" type="xsd:string"/>
+            <xsd:attribute name="bottom" type="xsd:string"/>
+            <xsd:attribute name="right" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="unamedSimpleElement">
+      <xsd:simpleContent>
+         <xsd:extension base="xsd:string">
+            <xsd:attribute name="visible" type="xsd:boolean"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+            <xsd:attribute name="backgroundcolor" type="xsd:string"/>
+            <xsd:attribute name="foregroundcolor" type="xsd:string"/>
+            <xsd:attribute name="fontfamily" type="xsd:string"/>
+            <xsd:attribute name="fontcolor" type="xsd:string"/>
+            <xsd:attribute name="fontsize" type="xsd:string"/>
+            <xsd:attribute name="bordertype" type="xsd:string"/>
+            <xsd:attribute name="textalign" type="xsd:string"/>
+            <xsd:attribute name="enabled" type="xsd:boolean"/>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="root" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence>
+               <xsd:choice maxOccurs="unbounded">
+                  <xsd:element ref="lovbox"/>
+                  <xsd:element ref="filebox"/>
+                  <xsd:element ref="gridcell"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="gridlayout"/>
+                  <xsd:element ref="yaxis"/>
+                  <xsd:element ref="accordion"/>
+                  <xsd:element ref="calendar"/>
+                  <xsd:element ref="colorpicker"/>
+                  <xsd:element ref="interactionblock"/>
+                  <xsd:element ref="include"/>
+                  <xsd:element ref="textlink"/>
+                  <xsd:element ref="listbox"/>
+                  <xsd:element ref="xhtml"/>
+                  <xsd:element ref="positionlayout"/>
+                  <xsd:element ref="flowlayout"/>
+                  <xsd:element ref="gridflowlayout"/>
+                  <xsd:element ref="xaxis"/>
+                  <xsd:element ref="gridview"/>
+                  <xsd:element ref="framepanel"/>
+                  <xsd:element ref="radiobox"/>
+                  <xsd:element ref="calculator"/>
+                  <xsd:element ref="formpanel"/>
+                  <xsd:element ref="tab"/>
+                  <xsd:element ref="piechart"/>
+                  <xsd:element ref="image"/>
+                  <xsd:element ref="viewcolumn"/>
+                  <xsd:element ref="inputbutton"/>
+                  <xsd:element ref="treeview"/>
+                  <xsd:element ref="slider"/>
+                  <xsd:element ref="textarea"/>
+                  <xsd:element ref="legend"/>
+                  <xsd:element ref="listview"/>
+                  <xsd:element ref="config"/>
+                  <xsd:element ref="checkbox"/>
+                  <xsd:element ref="menu"/>
+                  <xsd:element ref="widget"/>
+                  <xsd:element ref="series"/>
+                  <xsd:element ref="positionpanel"/>
+                  <xsd:element ref="borderlayout"/>
+                  <xsd:element ref="panel"/>
+                  <xsd:element ref="component"/>
+                  <xsd:element ref="linechart"/>
+                  <xsd:element ref="textbox"/>
+                  <xsd:element ref="radiogroup"/>
+                  <xsd:element ref="viewheader"/>
+                  <xsd:element ref="repeater"/>
+                  <xsd:element ref="pager"/>
+                  <xsd:element ref="editbox"/>
+                  <xsd:element ref="tabpanel"/>
+                  <xsd:element ref="button"/>
+                  <xsd:element ref="window"/>
+                  <xsd:element ref="menuitem"/>
+                  <xsd:element ref="text"/>
+                  <xsd:element ref="combobox"/>
+                  <xsd:element ref="barchart"/>
+                  <xsd:element ref="textfield"/>
+                  <xsd:element ref="menuview"/>
+                  <xsd:element ref="collapsiblepanel"/>
+               </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="title" type="xsd:string"/>
+            <xsd:attribute name="layout" type="layouttype"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="viewRow">
+      <xsd:sequence/>
+      <xsd:attribute name="height" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="gridtotals-group-total">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence/>
+            <xsd:attribute name="ref" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="type" type="xsd:string"/>
+            <xsd:attribute name="block" type="xsd:string"/>
+            <xsd:attribute name="member" type="xsd:string"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+            <xsd:attribute name="textalign" type="xsd:string"/>
+            <xsd:attribute name="datatype" type="xsd:string"/>
+            <xsd:attribute name="formatmask" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="editPanel">
+      <xsd:sequence/>
+      <xsd:attribute name="src" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="layout" abstract="true">
+      <xsd:complexContent>
+         <xsd:extension base="base">
+            <xsd:sequence/>
+            <xsd:attribute name="padding" type="xsd:string"/>
+            <xsd:attribute name="style" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="editor" type="editor"/>
+   <xsd:element name="include" type="include"/>
+   <xsd:element name="treeview">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="view">
+               <xsd:sequence/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="viewheader" type="viewHeader"/>
+   <xsd:element name="interactionblock">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="base">
+               <xsd:sequence/>
+               <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="repeater" type="repeater"/>
+   <xsd:element name="image">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="control">
+               <xsd:sequence>
+                  <!--<xsd:choice maxOccurs="unbounded">
+                     <xsd:element ref="event" minOccurs="0"/>
+				 </xsd:choice>-->
+               </xsd:sequence>
+               <xsd:attribute name="member" type="xsd:string"/>
+               <xsd:attribute name="block" type="xsd:string"/>
+               <xsd:attribute name="src" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="calendar">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="labelwidth" type="xsd:string"/>
+               <xsd:attribute name="labelposition" type="xsd:string"/>
+               <xsd:attribute name="labeloffset" type="xsd:string"/>
+               <xsd:attribute name="labelalign" type="xsd:string"/>
+               <xsd:attribute name="labelstyle" type="xsd:string"/>
+               <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+               <xsd:attribute name="labelcolor" type="xsd:string"/>
+               <xsd:attribute name="labelfontsize" type="xsd:string"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="text">
+      <xsd:complexType>
+         <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+               <xsd:attribute name="member" type="xsd:string"/>
+               <xsd:attribute name="block" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:simpleContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="lovbox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="inputbutton">
+               <xsd:sequence/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="area" type="borderLayoutArea"/>
+   <xsd:element name="listbox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence>
+                  <xsd:element name="model" minOccurs="0">
+                     <xsd:complexType>
+                        <xsd:sequence>
+                           <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" nillable="true">
+                              <xsd:complexType>
+                                 <xsd:sequence/>
+                                 <xsd:attribute name="label" type="xsd:string"/>
+                                 <xsd:attribute name="value" type="xsd:string"/>
+                              </xsd:complexType>
+                           </xsd:element>
+                        </xsd:sequence>
+                     </xsd:complexType>
+                  </xsd:element>
+               </xsd:sequence>
+               <xsd:attribute name="multiple" type="xsd:boolean"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+               <xsd:attribute name="unmatchedvalue" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="widget">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="bindcontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="type" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="menu">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="baseSimpleElement">
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element ref="menu" minOccurs="0"/>
+                     <xsd:element ref="menuitem" minOccurs="0"/>
+                  </xsd:choice>
+               </xsd:sequence>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="window" type="window"/>
+   <xsd:element name="button">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="basebutton">
+               <xsd:sequence/>
+               <xsd:attribute name="icon" type="xsd:string"/>
+               <xsd:attribute name="default" type="xsd:boolean" use="required"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="editbox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="inputbutton">
+               <xsd:sequence/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="config" type="config"/>
+   <xsd:element name="pager" type="pager"/>
+   <xsd:element name="textbox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="multiline" type="xsd:boolean"/>
+               <xsd:attribute name="minvalue" type="xsd:string"/>
+               <xsd:attribute name="maxvalue" type="xsd:string"/>
+               <xsd:attribute name="type" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="panel" type="panel"/>
+   <xsd:element name="tab" type="tab"/>
+   <xsd:element name="gridcell" type="gridLayoutCell"/>
+   <xsd:element name="framepanel" type="framePanel"/>
+   <xsd:element name="checkbox" type="editorCheckbox"/>
+   <xsd:element name="radiogroup">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="textinputcontrol">
+               <xsd:sequence>
+                  <xsd:element ref="radiobox" minOccurs="0" maxOccurs="unbounded"/>
+               </xsd:sequence>
+               <xsd:attribute name="othervalue" type="xsd:string"/>
+               <xsd:attribute name="unmatchedvalue" type="xsd:string"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+               <xsd:attribute name="required" type="xsd:boolean"/>
+               <xsd:attribute name="orientation" type="floworientation"/>
+               <xsd:attribute name="unmatchedvalueisnull" type="xsd:boolean"/>
+               <xsd:attribute name="valueisnull" type="xsd:boolean"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="viewcolumn">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence>
+                  <xsd:element name="editor" type="editor" minOccurs="0"/>
+               </xsd:sequence>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="labelstyle" type="xsd:string"/>
+               <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+               <xsd:attribute name="labelcolor" type="xsd:string"/>
+               <xsd:attribute name="labelfontsize" type="xsd:string"/>
+               <xsd:attribute name="maxvalue" type="xsd:string"/>
+               <xsd:attribute name="minvalue" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="tabpanel" type="tabPanel"/>
+   <xsd:element name="borderlayout" type="borderLayout"/>
+   <xsd:element name="gridlayout" type="gridLayout"/>
+   <xsd:element name="positionlayout" type="positionLayout"/>
+   <xsd:element name="menuitem">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="base">
+               <xsd:sequence/>
+               <xsd:attribute name="description" type="xsd:string"/>
+               <xsd:attribute name="type" type="xsd:string"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+               <xsd:attribute name="href" type="xsd:string"/>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="name" type="xsd:string"/>
+               <xsd:attribute name="icon" type="xsd:string"/>
+               <xsd:attribute name="accesskey" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="textlink">
+      <xsd:complexType mixed="true">
+         <xsd:complexContent>
+            <xsd:extension base="bindcontrol">
+               <xsd:sequence>
+                  <xsd:element name="contents" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+               </xsd:sequence>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="flowlayout" type="flowLayout"/>
+   <xsd:element name="radiobox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="basebutton">
+               <xsd:sequence/>
+               <xsd:attribute name="group" type="xsd:string"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="calculator">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="labelwidth" type="xsd:string"/>
+               <xsd:attribute name="labelposition" type="xsd:string"/>
+               <xsd:attribute name="labeloffset" type="xsd:string"/>
+               <xsd:attribute name="labelalign" type="xsd:string"/>
+               <xsd:attribute name="labelstyle" type="xsd:string"/>
+               <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+               <xsd:attribute name="labelcolor" type="xsd:string"/>
+               <xsd:attribute name="labelfontsize" type="xsd:string"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="gridflowlayout" type="gridFlowLayout"/>
+   <xsd:element name="combobox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence>
+                  <xsd:element name="model" minOccurs="0">
+                     <xsd:complexType>
+                        <xsd:sequence>
+                           <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" nillable="true">
+                              <xsd:complexType>
+                                 <xsd:sequence/>
+                                 <xsd:attribute name="label" type="xsd:string"/>
+                                 <xsd:attribute name="value" type="xsd:string"/>
+                              </xsd:complexType>
+                           </xsd:element>
+                        </xsd:sequence>
+                     </xsd:complexType>
+                  </xsd:element>
+               </xsd:sequence>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+               <xsd:attribute name="unmatchedvalue" type="xsd:string"/>
+               <xsd:attribute name="unmatchedvalueisnull" type="xsd:boolean"/>
+               <xsd:attribute name="valueisnull" type="xsd:boolean"/>
+               <xsd:attribute name="othervalue" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="gridview" type="gridView"/>
+   <xsd:element name="textfield">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="textinputcontrol">
+               <xsd:sequence/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="textarea">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="listview">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="view">
+               <xsd:sequence>
+                  <xsd:element name="viewheader" type="viewHeader"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="component">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="baseLabelElement">
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element ref="lovbox"/>
+                     <xsd:element ref="filebox"/>
+                     <xsd:element ref="gridcell"/>
+                     <xsd:element ref="checkbox"/>
+                     <xsd:element ref="gridlayout"/>
+                     <xsd:element ref="yaxis"/>
+                     <xsd:element ref="accordion"/>
+                     <xsd:element ref="calendar"/>
+                     <xsd:element ref="colorpicker"/>
+                     <xsd:element ref="interactionblock"/>
+                     <xsd:element ref="include"/>
+                     <xsd:element ref="textlink"/>
+                     <xsd:element ref="listbox"/>
+                     <xsd:element ref="xhtml"/>
+                     <xsd:element ref="positionlayout"/>
+                     <xsd:element ref="flowlayout"/>
+                     <xsd:element ref="gridflowlayout"/>
+                     <xsd:element ref="xaxis"/>
+                     <xsd:element ref="gridview"/>
+                     <xsd:element ref="framepanel"/>
+                     <xsd:element ref="radiobox"/>
+                     <xsd:element ref="calculator"/>
+                     <xsd:element ref="formpanel"/>
+                     <xsd:element ref="tab"/>
+                     <xsd:element ref="piechart"/>
+                     <xsd:element ref="image"/>
+                     <xsd:element ref="viewcolumn"/>
+                     <xsd:element ref="inputbutton"/>
+                     <xsd:element ref="treeview"/>
+                     <xsd:element ref="slider"/>
+                     <xsd:element ref="textarea"/>
+                     <xsd:element ref="legend"/>
+                     <xsd:element ref="listview"/>
+                     <xsd:element ref="config"/>
+                     <xsd:element ref="checkbox"/>
+                     <xsd:element ref="menu"/>
+                     <xsd:element ref="widget"/>
+                     <xsd:element ref="series"/>
+                     <xsd:element ref="positionpanel"/>
+                     <xsd:element ref="borderlayout"/>
+                     <xsd:element ref="panel"/>
+                     <xsd:element ref="component"/>
+                     <xsd:element ref="linechart"/>
+                     <xsd:element ref="textbox"/>
+                     <xsd:element ref="radiogroup"/>
+                     <xsd:element ref="viewheader"/>
+                     <xsd:element ref="repeater"/>
+                     <xsd:element ref="pager"/>
+                     <xsd:element ref="editbox"/>
+                     <xsd:element ref="tabpanel"/>
+                     <xsd:element ref="button"/>
+                     <xsd:element ref="window"/>
+                     <xsd:element ref="menuitem"/>
+                     <xsd:element ref="text"/>
+                     <xsd:element ref="combobox"/>
+                     <xsd:element ref="barchart"/>
+                     <xsd:element ref="textfield"/>
+                     <xsd:element ref="menuview"/>
+                     <xsd:element ref="collapsiblepanel"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="positionpanel" type="positionPanel"/>
+   <xsd:element name="accordionPanel" type="accordionPanel"/>
+   <xsd:element name="menuview">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="view">
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element ref="menu" minOccurs="0"/>
+                     <xsd:element ref="menuitem" minOccurs="0"/>
+                  </xsd:choice>
+               </xsd:sequence>
+               <xsd:attribute name="orientation" type="floworientation"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="collapsiblepanel" type="collapsiblePanel"/>
+   <xsd:element name="accordion" type="accordion"/>
+   <xsd:element name="formpanel" type="formPanel"/>
+   <xsd:element name="xhtml" type="xHtml"/>
+   <xsd:element name="filebox">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="action" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="colorpicker">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="editablecontrol">
+               <xsd:sequence/>
+               <xsd:attribute name="label" type="xsd:string"/>
+               <xsd:attribute name="labelwidth" type="xsd:string"/>
+               <xsd:attribute name="labelposition" type="xsd:string"/>
+               <xsd:attribute name="labeloffset" type="xsd:string"/>
+               <xsd:attribute name="labelalign" type="xsd:string"/>
+               <xsd:attribute name="labelstyle" type="xsd:string"/>
+               <xsd:attribute name="labelfontfamily" type="xsd:string"/>
+               <xsd:attribute name="labelcolor" type="xsd:string"/>
+               <xsd:attribute name="labelfontsize" type="xsd:string"/>
+               <xsd:attribute name="action" type="xsd:string"/>
+               <xsd:attribute name="actionparams" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="slider" type="slider"/>
+   <xsd:element name="barchart" type="barChart"/>
+   <xsd:element name="linechart" type="lineChart"/>
+   <xsd:element name="piechart" type="pieChart"/>
+   <xsd:element name="legend" type="chartLegend"/>
+   <xsd:element name="xaxis" type="xAxis"/>
+   <xsd:element name="yaxis" type="yAxis"/>
+   <xsd:element name="series" type="chartSerie"/>
+   <xsd:element name="inputbutton" type="inputbutton"/>
+   <xsd:element name="viewrow" type="viewRow"/>
+   <xsd:element name="editpanel" type="editPanel"/>
+   <xsd:simpleType name="floworientation">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="vertical"/>
+         <xsd:enumeration value="horizontal"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="casetype">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="upper"/>
+         <xsd:enumeration value="lower"/>
+         <xsd:enumeration value="mixed"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="layouttype">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="vertical"/>
+         <xsd:enumeration value="horizontal"/>
+         <xsd:enumeration value="positional"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="borderposition">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="top"/>
+         <xsd:enumeration value="bottom"/>
+         <xsd:enumeration value="left"/>
+         <xsd:enumeration value="right"/>
+         <xsd:enumeration value="center"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="griddirection">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="row"/>
+         <xsd:enumeration value="column"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+</xsd:schema>
