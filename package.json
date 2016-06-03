@@ -1,7 +1,7 @@
 {
   "name": "frames-atom",
   "main": "./lib/main",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provides basic support and syntax highlighting for Frames development in Atom",
   "keywords": [
     "generic",
